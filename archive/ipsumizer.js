@@ -1,16 +1,3 @@
-"use strict"
-
-var button = document.createElement("button"); button.style = `
-position: fixed;
-top:0;
-left:0;
-z-index: 100000;
-
-`
-button.textContent= "TRIGGER"
-document.body.append(button)
-
-
 // IPSUM
 ;(function() {
 
@@ -158,18 +145,14 @@ document.body.append(button)
 	}
 
 })();
-
 var ipsum = new LoremIpsum();
-console.log(ipsum.sentence(12));
 
+//Test
+console.log("IPSUMIZER: ON", ipsum.sentence(12));
 
-/** I need to reach bottom of page to load every dinamic elements, like src, imgs, pictures etc
- * - Change text with lorem ipsum
- */
-var body = document.body;
-var html = document.documentElement;
-var height = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+var ps = document.querySelectorAll("p");
+var divs = document.querySelectorAll("div");
+var spans = document.querySelectorAll("span");
 
 var h1s = document.querySelectorAll("h1");
 var h2s = document.querySelectorAll("h2");
@@ -180,92 +163,90 @@ var h5s = document.querySelectorAll("h5");
 var as = document.querySelectorAll("a");
 
 
-var pictures = document.querySelectorAll("picture");
-var sources = document.querySelectorAll("source");
-var imgs = document.querySelectorAll("img");
-
-var ps = document.querySelectorAll("p");
-
-var divs = document.querySelectorAll("div");
 
 
-button.onClick = ()=>{
-    
-    window.addEventListener('scroll', someFunction);
-    window.scrollBy(0,600);
-}
+ps.forEach( p => { 
+	// p.style.backgroundColor = "#606060"; 
+	// p.style.color = "#606060"
+	if(p.textContent !== ""){
+		let count = p.textContent.split(' ').length;
+		p.textContent = ipsum.sentence(count)
+	}
+
+})   
+spans.forEach( span => { 
+	// span.style.backgroundColor = "#606060"; 
+	// span.style.color = "#606060"
+	if(span.textContent !== ""){
+		let count = span.textContent.split(' ').length;span.textContent = ipsum.sentence(count);
+	}
+
+})   
+divs.forEach(div=>{ 
+
+	if(div.firstChild.nodeName == "#text" && div.childElementCount == 1){
+		div.style.background = "black"; 
+		// div.style.color = "green"; 
+		div.style.opacity == "0.6";
+	}
+
+	if(div.style.backgroundImage !== ""){
+		div.style.backgroundImage = "url(https://www.wirify.com/client/images/placeholder.png)";
+	}
+
+	// BAD, it reads textContent from first div as whole page,...
+	// if(div.firstChild.textContent !== ""){
+	// 	let count = div.textContent.split(' ').length;
+	// 	div.textContent = ipsum.sentence(count)
+	// }
+
+		// if(div.firstChild.nodeName == "#text" && div.childElementCount == 1){
+		// 	let count = div.textContent.split(' ').length;
+		// 	div.textContent = ipsum.sentence(count)
+		// }
+
+});
 
 
-// Event listener for scrolling
-
-
-function someFunction (){
-
-    // Check if we're at the bottom
-    if (window.innerHeight + window.scrollY >= height) {
-        console.log("You`ve reached the bottom!")
-
-        // Remove scroller
-        window.removeEventListener("scroll", someFunction);
-
-        //Execute main script
-        executeScript();
-
-    } else {
-            console.log("Keep scrolling")
-
-            setTimeout(()=>{ window.scrollBy(0,600);}, 400)
-        // Change color to white
-        //document.querySelector('body').style.background = 'white';
-    }
-
-};
-
-function executeScript(){
-    h1s.forEach(h1=>{ h1.style.backgroundColor = "black"; h1.style.color = "black"})
-    h2s.forEach(h2=>{ h2.style.backgroundColor = "black"; h2.style.color = "black"})
-    h3s.forEach(h3=>{ h3.style.backgroundColor = "black"; h3.style.color = "black"})
-    h4s.forEach(h4=>{ h4.style.backgroundColor = "black"; h4.style.color = "black"})
-    h5s.forEach(h5=>{ h5.style.backgroundColor = "black"; h5.style.color = "black"})
-    as.forEach(a=>{ a.style.backgroundColor = "#808080"; a.style.color = "#808080"})
-
-
-    pictures.forEach(picture=>{ picture.srcset = "https://www.wirify.com/client/images/placeholder.png";});
-    sources.forEach(source=>{ source.srcset = "https://www.wirify.com/client/images/placeholder.png";});
-
-    imgs.forEach(img=>{ img.src = "https://www.wirify.com/client/images/placeholder.png"; img.srcset = "https://www.wirify.com/client/images/placeholder.png"});
-    divs.forEach(div=>{ 
-        // if(div.textContent !== ""){
-        //     div.style.background = "black"; div.style.color = "green"
-        // }
-        if(div.style.backgroundImage !== ""){
-            div.style.backgroundImage = "url(https://www.wirify.com/client/images/placeholder.png)";
-        }
+h1s.forEach(h1=>{ let count = h1.textContent.split(' ').length; h1.textContent = ipsum.sentence(count);})
+h2s.forEach(h2=>{let count = h2.textContent.split(' ').length; h2.textContent = ipsum.sentence(count);})
+h3s.forEach(h3=>{ let count = h3.textContent.split(' ').length; h3.textContent = ipsum.sentence(count);})
+h4s.forEach(h4=>{ let count = h4.textContent.split(' ').length; h4.textContent = ipsum.sentence(count);})
+h5s.forEach(h5=>{ let count = h5.textContent.split(' ').length; h5.textContent = ipsum.sentence(count);})
+as.forEach(a=>{ let count = a.textContent.split(' ').length; a.textContent = ipsum.sentence(count);})
 
 
 
 
 
-    });
-    
-    
-    
-    
-    ps.forEach( p => { 
-        // p.style.backgroundColor = "#606060"; 
-        // p.style.color = "#606060"
-        if(p.textContent !== ""){
-            let count = p.textContent.split(' ').length;
-            p.textContent = ipsum.sentence(count)
-        }
-    
-    })   
-
-}
 
 
 
 
 
-// let scrollToBottom = setInterval(function(){ window.scrollBy(0,600); }, 400);
-// clearInterval()
+
+
+
+// let count = $0.textContent.split(' ').length;
+// $0.textContent = ipsum.sentence(count)
+
+
+
+
+
+
+
+// if(divs[0].firstChild.nodeName == "#text" && divs[0].childElementCount == 1){
+// 	let count = divs[0].textContent.split(' ').length;
+// 	divs[0].textContent = ipsum.sentence(count)
+// }else{
+// 	console.log("N/A")
+// }
+
+
+// var divs = document.querySelectorAll("div");
+// divs.forEach(div=>{
+// 	if(div.nodeType == 3 && div.firstChild.nodeType == 3){
+// 		console.log(div)
+// 	}
+// })
