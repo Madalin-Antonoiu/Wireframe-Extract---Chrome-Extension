@@ -1,6 +1,5 @@
 
-// You also need all children of a for example, if they window.getStyle have URL, replace it :)
-
+// Biggest Feature: wrap every piece of text within a span, and make it grey color grey background
 async function MAIN(){
     async function isFirstNodeTextThenReplaceWithSpan(node){
         if(node.firstChild){
@@ -55,6 +54,7 @@ async function MAIN(){
         document.querySelectorAll("h1").forEach(h1=>{ 
             // h1.style.backgroundColor = "black";
             h1.style.color = "#FFFFFF" 
+
             wrapAnyNodeTypeThreeChildrenWithinASpan(h1)
 
         })
@@ -90,13 +90,17 @@ async function MAIN(){
         spans.forEach(span=>{  
             span.style.background = "#666666";
             span.style.color = "#666666";
+            // span.style.outline = "1px solid white";
         })
         
     }
     async function imgs(){
         document.querySelectorAll("img").forEach(img=>{ 
-            img.src = "https://www.wirify.com/client/images/placeholder.png"; 
-            img.srcset = "https://www.wirify.com/client/images/placeholder.png"
+            
+            img.src= "https://www.wirify.com/client/images/placeholder.png";
+            img.srcset = "https://www.wirify.com/client/images/placeholder.png";
+            img.width = img.width;
+            img.height = img.height;
         });
         
     }
@@ -107,8 +111,9 @@ async function MAIN(){
                 div.style.backgroundColor = "grey";
             }
 
-            if(window.getComputedStyle(div).backgroundColor){
-                div.style.backgroundColor = "grey !important";
+            if(window.getComputedStyle(div).background.includes("rgb")){
+                //Get the class that has this color and replace it!
+               div.style.background = "grey !important";
             }
 
             if(div.style.background.includes("url")){
@@ -239,6 +244,12 @@ async function MAIN(){
         });
         
     }
+    async function labels(){
+        document.querySelectorAll("label").forEach(label=>{  
+            wrapAnyNodeTypeThreeChildrenWithinASpan(label)
+        })
+        
+    }
     
     await headers();
     await imgs();
@@ -258,6 +269,7 @@ async function MAIN(){
     await sources();
     await strongs();
     await videos();
+    await labels();
 
     await spans();
 }
@@ -281,9 +293,6 @@ var sources = document.querySelectorAll("source");
 
 pictures.forEach(picture=>{ picture.srcset = "https://www.wirify.com/client/images/placeholder.png";});
 sources.forEach(source=>{ source.srcset = "https://www.wirify.com/client/images/placeholder.png";});
-
-
-
 
 
 
