@@ -4,8 +4,8 @@
  * 4. python.org, https://onextrapixel.com/, https://developer.mozilla.org/, https://www.samsung.com/ro/, emag.ro (dynamic some elements)
  * 5. https://www.awwwards.com/ (base) and it`s following sites:
  *      -TECHNOLOGY: https://letter.co/, https://hytek.co.jp/ (japanese), https://www.pride.ru/ (RU!)
- *                  https://www.dwr.com/ (Design within reach, YES!)
- */
+ *                  https://www.dwr.com/ (Design within reach, YES!), https://www.teamgb.com/, https://climate.ai/, https://virginhyperloop.com/
+ */                 //https://utrust.com/,  https://www.storemaven.com/, https://www.tesla.com/ etc.
 
 // For iframe i just insert Array.from to run inside iframe's document :)
 // For the ::before and ::after, you can find any elem that has it within like window.getComputedStyle($0, '::before');
@@ -116,6 +116,9 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "B" || el.nodeName == "I"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "DEL" || el.nodeName == "INS" || el.nodeName == "SUB" || el.nodeName == "MARK"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     
