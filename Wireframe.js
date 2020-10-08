@@ -1,13 +1,24 @@
+/** Websites i tested  and wireframes 99.99% TEXT ONLY while maintaining original page structure: (not all the colors yet, not IFRAMES)
+ * 1. Google.com,Twitch.com (dynamic), Stackoverflow.com (some parts are dynamic, like ads)
+ * 3. W3schools.com (some parts are dynamic, like ads - have to perfect on IFRAMES)
+ * 4. python.org, https://onextrapixel.com/, https://developer.mozilla.org/, https://www.samsung.com/ro/, emag.ro (dynamic some elements)
+ * 5. https://www.awwwards.com/ (base) and it`s following sites:
+ *      -TECHNOLOGY: https://letter.co/, https://hytek.co.jp/ (japanese), https://www.pride.ru/ (RU!)
+ *                  https://www.dwr.com/ (Design within reach, YES!)
+ */
+
+// For iframe i just insert Array.from to run inside iframe's document :)
+// For the ::before and ::after, you can find any elem that has it within like window.getComputedStyle($0, '::before');
 
 console.log("Replace every bit of text - Installed")
-var styled = `
-background: #666666 !important; 
-color: #666666 !important; 
-border: 1px solid #A6A6A6 !important; 
-text-shadow: none !important;
-`;
 
 // Helpers
+    var styled = `
+    background: #666666 !important; 
+    color: #666666 !important; 
+    border: 1px solid #A6A6A6 !important; 
+    text-shadow: none !important;
+    `;
     function ifFirstChildExistsAndIsTextNodeAndNotEmpty(el){
 
     // Helper
@@ -54,59 +65,58 @@ text-shadow: none !important;
             textNodeParent.appendChild(mark);
         }
     }
+//
 
 
-    // Really unnecessary!, i can just do the Array.from
-    var whenReady = function(callback) {
-        if (document.readyState === 'complete') callback(); // check not already loaded prior to this function being called
-        else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback); // for standards compliant browsers (including IE 9+)
-        else if (document.attachEvent) document.attachEvent('onreadystatechange', callback); // for IE 8
-    };
-
-    whenReady(initApplication());
-
-
-// MAIN. With only one QUERY of all elements :)
-function initApplication(){
-
-    Array.from(document.body.querySelectorAll('*')).forEach(el => {
-        if(el.nodeName == "SCRIPT"){
-            //do nothing
-        }
-        else if(el.nodeName == "DIV"){
-            // ifFirstChildExistsAndIsTextNodeAndNotEmpty(el)
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        } 
-        else if(el.nodeName == "A"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "SPAN"){
-            if(el.style.backgroundColor){
-                el.style= styled;
-            }
-        
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "TD"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "H1" || el.nodeName == "H2" || el.nodeName == "H3" || el.nodeName == "H4" || el.nodeName == "H5"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "INPUT" || el.nodeName == "BUTTON" ){
+// Main execution   
+Array.from(document.body.querySelectorAll('*')).forEach(el => {
+    if(el.nodeName == "SCRIPT"){
+        //do nothing
+    }
+    else if(el.nodeName == "DIV"){
+        // ifFirstChildExistsAndIsTextNodeAndNotEmpty(el)
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    } 
+    else if(el.nodeName == "A"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "SPAN"){
+        if(el.style.backgroundColor){
             el.style= styled;
-            el.placeholder = "";
         }
-        else if(el.nodeName == "CITE" || el.nodeName == "TIME" || el.nodeName == "LABEL" || el.nodeName == "CODE"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "LI"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-        else if(el.nodeName == "P"){
-            ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        }
-
-    })
-
-}
+    
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "TD"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "H1" || el.nodeName == "H2" || el.nodeName == "H3" || el.nodeName == "H4" || el.nodeName == "H5"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "INPUT" || el.nodeName == "BUTTON" ){
+        el.style= styled;
+        el.placeholder = "";
+    }
+    else if(el.nodeName == "CITE" || el.nodeName == "TIME" || el.nodeName == "LABEL" || el.nodeName == "DD" || el.nodeName == "TH"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "LI"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "P" || el.nodeName == "S" ){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "CODE" || el.nodeName == "STRONG" || el.nodeName == "EM" || el.nodeName == "SUMMARY"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "PRE"){
+        el.style= styled;
+    }
+    else if(el.nodeName == "SMALL" || el.nodeName == "SUP" || el.nodeName == "FIGCAPTION" || el.nodeName == "DT"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "B" || el.nodeName == "I"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    
+})
