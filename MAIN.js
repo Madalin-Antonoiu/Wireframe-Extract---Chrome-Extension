@@ -108,6 +108,10 @@ async function MAIN(){
             if(div.style.backgroundColor){
                 div.style.backgroundColor = "grey";
             }
+
+            if(window.getComputedStyle(div).background){
+                div.style.backgroundColor = "grey !important";
+            }
             
         });
         
@@ -119,9 +123,7 @@ async function MAIN(){
                 // a.style.background = "#808080"; 
                 // a.style.color = "#808080"
                 clearsBackgroundColor(a);
-
-
-
+                wrapAnyNodeTypeThreeChildrenWithinASpan(a)
             }
         })
     }
@@ -193,6 +195,23 @@ async function MAIN(){
         })
         
     }
+    async function inputs(){
+        document.querySelectorAll("input").forEach(input=>{  
+            input.placeholder="";
+            input.style.background = "#777777";
+        })
+    }
+    async function buttons(){
+        document.querySelectorAll("button").forEach(button=>{  
+            button.style.background = "#888888";
+            button.style.color = "#888888";
+        })
+    }
+    async function sources(){
+        document.querySelectorAll("source").forEach(source=>{  
+            source.srcset = "https://www.wirify.com/client/images/placeholder.png";
+        })
+    }
 
 
     await headers();
@@ -208,6 +227,9 @@ async function MAIN(){
     await svgs();
     await sups();
     await gs();
+    await inputs();
+    await buttons();
+    await sources();
 
     await spans();
 }

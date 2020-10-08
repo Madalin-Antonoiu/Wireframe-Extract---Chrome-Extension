@@ -1,37 +1,39 @@
-/////////////////////////////////////////LATER//////////////////////////
-// console.log("Installed")
+///////////////////////////////////////LATER//////////////////////////
+console.log("Installed")
 
-// const stylesheets = document.styleSheets;
+const stylesheets = document.styleSheets;
 
-// function media(){
-//     var mediaQueries = [];
-//     var rules = [];
+function media(){
+    var mediaQueries = [];
+    var rules = [];
 
-//     for(let i =0, len = stylesheets.length; i<len; i++){
-//         rules = stylesheets[i].cssRules;
+    for(let i =0, len = stylesheets.length; i<len; i++){
+        rules = stylesheets[i].cssRules;
 
-//         for(let j =0, len = rules.length; j<len; j++){
-//             if(rules[j].cssText.includes("@media")){
-//                 mediaQueries.push(rules[j].conditionText);
-//             }
-//         }
-
-
-//     }
-
-//     // mediaQueries.forEach(query =>{
-//     //     console.log(query)
-//     // })
-
-//     var unique = mediaQueries.filter(onlyUnique);
-//     console.log(unique); 
+        for(let j =0, len = rules.length; j<len; j++){
+            if(rules[j].cssText.includes("background-color")){
+                console.log(rules[j].style.backgroundColor);
+                console.log(rules[j].style["background-color"]);
+                mediaQueries.push(rules[j].conditionText);
+            }
+        }
 
 
-// }
+    }
 
-// media();
+    // mediaQueries.forEach(query =>{
+    //     console.log(query)
+    // })
+
+    var unique = mediaQueries.filter(onlyUnique);
+    console.log(unique); 
 
 
-// function onlyUnique(value, index, self) {
-//     return self.indexOf(value) === index;
-// }
+}
+
+media();
+
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}

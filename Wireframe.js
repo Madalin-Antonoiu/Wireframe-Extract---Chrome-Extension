@@ -8,7 +8,7 @@ z-index: 100000;
 
 `
 button.textContent= "TRIGGER"
-document.body.append(button)
+// document.body.append(button)
 
 
 // IPSUM
