@@ -1,5 +1,6 @@
 
-//#cccccc
+// You also need all children of a for example, if they window.getStyle have URL, replace it :)
+
 async function MAIN(){
     async function isFirstNodeTextThenReplaceWithSpan(node){
         if(node.firstChild){
@@ -54,33 +55,35 @@ async function MAIN(){
         document.querySelectorAll("h1").forEach(h1=>{ 
             // h1.style.backgroundColor = "black";
             h1.style.color = "#FFFFFF" 
-            isFirstNodeTextThenReplaceWithSpan(h1)
+            wrapAnyNodeTypeThreeChildrenWithinASpan(h1)
 
         })
         document.querySelectorAll("h2").forEach(h2=>{ 
             // h2.style.backgroundColor = "black"; 
             h2.style.color = "#FFFFFF"
-            isFirstNodeTextThenReplaceWithSpan(h2)
+            wrapAnyNodeTypeThreeChildrenWithinASpan(h2)
         })
         
         document.querySelectorAll("h3").forEach(h3=>{ 
             // h3.style.backgroundColor = "black"; 
             h3.style.color = "#FFFFFF"
-            isFirstNodeTextThenReplaceWithSpan(h3)
+            wrapAnyNodeTypeThreeChildrenWithinASpan(h3)
         
         })
 
         document.querySelectorAll("h4").forEach(h4=>{ 
             // h4.style.backgroundColor = "black"; 
             h4.style.color = "#FFFFFF"
-            isFirstNodeTextThenReplaceWithSpan(h4)
+            wrapAnyNodeTypeThreeChildrenWithinASpan(h4)
         })
         document.querySelectorAll("h5").forEach(h5=>{ 
             // h5.style.backgroundColor = "black"; 
             h5.style.color = "#FFFFFF"
-            isFirstNodeTextThenReplaceWithSpan(h5)
+            wrapAnyNodeTypeThreeChildrenWithinASpan(h5)
         
         })
+
+        return {"message": "success"}
     }
     async function spans(){
         var spans = document.querySelectorAll("span");
@@ -99,19 +102,24 @@ async function MAIN(){
     }
     async function divs(){
         document.querySelectorAll("div").forEach(async div=>{ 
-            await wrapAnyNodeTypeThreeChildrenWithinASpan(div);
 
-            if(div.style.backgroundImage !== ""){
-                div.style.backgroundImage = "url(https://www.wirify.com/client/images/placeholder.png)";
-            }
-        
             if(div.style.backgroundColor){
                 div.style.backgroundColor = "grey";
             }
 
-            if(window.getComputedStyle(div).background){
+            if(window.getComputedStyle(div).backgroundColor){
                 div.style.backgroundColor = "grey !important";
             }
+
+            if(div.style.background.includes("url")){
+                div.style.background= 'url(https://www.wirify.com/client/images/placeholder.png)'
+            }
+
+            if(window.getComputedStyle(div).background.includes("url")){
+                div.style.background= 'url(https://www.wirify.com/client/images/placeholder.png)'
+            }
+
+            await wrapAnyNodeTypeThreeChildrenWithinASpan(div);
             
         });
         
@@ -124,6 +132,10 @@ async function MAIN(){
                 // a.style.color = "#808080"
                 clearsBackgroundColor(a);
                 wrapAnyNodeTypeThreeChildrenWithinASpan(a)
+            }
+
+            if(a.style.background.includes("url")){
+                a.style.background= 'url(https://www.wirify.com/client/images/placeholder.png)'
             }
         })
     }
@@ -212,8 +224,22 @@ async function MAIN(){
             source.srcset = "https://www.wirify.com/client/images/placeholder.png";
         })
     }
-
-
+    async function strongs(){
+        document.querySelectorAll("strong").forEach(strong=>{  
+            strong.style.background = "#666666";
+            strong.style.color = "#666666";
+        })
+        
+    }
+    async function videos(){
+        document.querySelectorAll("video").forEach(video=>{ 
+            video.src = "https://www.wirify.com/client/images/placeholder.png"; 
+            video.srcset = "https://www.wirify.com/client/images/placeholder.png"
+            video.poster = "https://www.wirify.com/client/images/placeholder.png"
+        });
+        
+    }
+    
     await headers();
     await imgs();
     await divs();
@@ -230,11 +256,17 @@ async function MAIN(){
     await inputs();
     await buttons();
     await sources();
+    await strongs();
+    await videos();
 
     await spans();
 }
-MAIN();
 
+
+var start = performance.now();
+MAIN();
+var duration = performance.now() - start;
+console.log(duration)
 
 
 
