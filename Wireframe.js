@@ -23,24 +23,7 @@
             `
         )
     }
-    // function createForceImageCssRule(){
-    //     // Create this class for images
-    //     var style = document.createElement('style'); style.id="customCss"
-    //     style.type = 'text/css';
-    //     style.innerHTML = `.forceImage { ${styled()} }`;
-    //     document.getElementsByTagName('head')[0].appendChild(style);
-    //     // const customCss = document.querySelector("#customCss")
-    // }
-    // function replaceElementComputedStyleBackgroundUrlIfPresent(el){
-    //     if(window.getComputedStyle(el)["background"].includes("url")){
-    //         // el.classList.add("forceImage");
-    //         el.style = styled("#333333");
 
-    //     }
-
-       
-
-    // }
     function ifAnyChildExistsAndIsTextNodeAndNotEmpty(el){
 
         let children = el.childNodes;
@@ -51,27 +34,21 @@
             }
         })
 
-        function createMark(textNodeTextContent){
-            let mark = document.createElement("mark"); 
-            mark.style = styled();
-            mark.innerText = textNodeTextContent;
-            return mark
-        }
-
         // THis one does the whole text replace with grey thing :)
         function wrapTHISTextNodeInAMark(el){
             let textNodeTextContent = el.textContent.trim();
             let textNodeParent = el.parentElement;
 
-            let mark = createMark(textNodeTextContent);
+            let mark = document.createElement("mark"); 
+            mark.style = styled();
+            mark.innerText = textNodeTextContent;
 
             el.remove(); // THIS WAS THE BUG? OH, LORD!
             textNodeParent.appendChild(mark);
-            // textNodeParent.style = styled(color)
         }
     }
 //
-//createForceImageCssRule();
+
 
 // Main execution   
 Array.from(document.body.querySelectorAll('*')).forEach(el => {
@@ -82,26 +59,9 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     }
     else if(el.nodeName == "A"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        // replaceElementComputedStyleBackgroundUrlIfPresent(el);
-
-        // Looks good to me
-        // if(window.getComputedStyle(el)["background"].includes("rgb") && window.getComputedStyle(el)["background"].includes("url") == false){
-        //     // el.classList.add("forceImage");
-        //     el.style.background= "#666666 !important";
-            
-        // }
-
     }
     else if(el.nodeName == "DIV"){
-        //console.log(el.nodeName, el.style.fontSize)
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        // replaceElementComputedStyleBackgroundUrlIfPresent(el)
-
-        // if(window.getComputedStyle(el)["background"].includes("rgb") && window.getComputedStyle(el)["background"].includes("url") == false){
-        //     // el.classList.add("forceImage");
-        //     el.style.background= "#444444 !important";
-            
-        // }
     } 
     else if(el.nodeName == "SPAN"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
@@ -140,7 +100,6 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "DEL" || el.nodeName == "INS" || el.nodeName == "SUB" || el.nodeName == "MARK"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    
     // I. IMAGE
     
 })
