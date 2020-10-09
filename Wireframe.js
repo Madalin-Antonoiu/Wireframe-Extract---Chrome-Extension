@@ -10,15 +10,27 @@
 // For iframe i just insert Array.from to run inside iframe's document :)
 // For the ::before and ::after, you can find any elem that has it within like window.getComputedStyle($0, '::before');
 
-console.log("Replace every bit of text - Installed")
+    console.log("Replace every bit of text - Installed")
 
 // Helpers
-    var styled = `
-    background: #666666 !important; 
-    color: #666666 !important; 
-    border: 1px solid #A6A6A6 !important; 
-    text-shadow: none !important;
-    `;
+    function styled(color="#666666"){
+        return (
+            `
+            background: ${color}!important; 
+            color: ${color}!important; 
+            border: 1px solid #A6A6A6 !important; 
+            text-shadow: none !important;
+            `
+        )
+    }
+    function createForceImageCssRule(){
+        // Create this class for images
+        var style = document.createElement('style'); style.id="customCss"
+        style.type = 'text/css';
+        style.innerHTML = `.forceImage { ${styled()} }`;
+        document.getElementsByTagName('head')[0].appendChild(style);
+        // const customCss = document.querySelector("#customCss")
+    }
     function ifFirstChildExistsAndIsTextNodeAndNotEmpty(el){
 
     // Helper
@@ -27,7 +39,7 @@ console.log("Replace every bit of text - Installed")
             let textNodeTextContent = el.firstChild.textContent.trim();
             let textNodeParent = el.firstChild.parentElement;
 
-            let mark = document.createElement("mark"); mark.style = styled;mark.innerText = textNodeTextContent;
+            let mark = document.createElement("mark"); mark.style = styled();mark.innerText = textNodeTextContent;
         
             textNodeParent.textContent = "";
             textNodeParent.appendChild(mark);
@@ -59,67 +71,76 @@ console.log("Replace every bit of text - Installed")
             let textNodeTextContent = el.textContent.trim();
             let textNodeParent = el.parentElement;
 
-            let mark = document.createElement("mark"); mark.style = styled;mark.innerText = textNodeTextContent;
+            let mark = document.createElement("mark"); mark.style = styled();mark.innerText = textNodeTextContent;
 
             textNodeParent.textContent = "";
             textNodeParent.appendChild(mark);
         }
     }
 //
-
+createForceImageCssRule();
 
 // Main execution   
 Array.from(document.body.querySelectorAll('*')).forEach(el => {
+
+    // I. TEXT ( and where applicable, image too)
     if(el.nodeName == "SCRIPT"){
         //do nothing
     }
+    else if(el.nodeName == "A"){
+
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+        
+        if(window.getComputedStyle(el)["background"].includes("url")){
+            // el.classList.add("forceImage");
+            el.style = styled("#333333");
+        }
+        
+      //  
+
+    }
     else if(el.nodeName == "DIV"){
-        // ifFirstChildExistsAndIsTextNodeAndNotEmpty(el)
+        //console.log(el.nodeName, el.style.fontSize)
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     } 
-    else if(el.nodeName == "A"){
-        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-    }
     else if(el.nodeName == "SPAN"){
-        if(el.style.backgroundColor){
-            el.style= styled;
-        }
-    
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+
+        if(window.getComputedStyle(el)["backgroundColor"]){
+            el.style = styled();
+        }   
+
     }
-    else if(el.nodeName == "TD"){
+    else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "H1" || el.nodeName == "H2" || el.nodeName == "H3" || el.nodeName == "H4" || el.nodeName == "H5"){
+        //console.log(el.nodeName, el.style.fontSize)
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    else if(el.nodeName == "INPUT" || el.nodeName == "BUTTON" ){
-        el.style= styled;
-        el.placeholder = "";
+    else if(el.nodeName == "INPUT" || el.nodeName == "BUTTON" || el.nodeName == "PRE"){
+        el.style= styled();
+        if(el.placeholder) el.placeholder = "";
     }
-    else if(el.nodeName == "CITE" || el.nodeName == "TIME" || el.nodeName == "LABEL" || el.nodeName == "DD" || el.nodeName == "TH"){
+    else if(el.nodeName == "CITE" || el.nodeName == "TIME" || el.nodeName == "LABEL" || el.nodeName == "DD" ){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    else if(el.nodeName == "LI"){
-        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-    }
-    else if(el.nodeName == "P" || el.nodeName == "S" ){
+    else if(el.nodeName == "P" || el.nodeName == "S" || el.nodeName == "LI"){
+        if(el.nodeName == "P"){
+            //console.log(el.nodeName, el.style.fontSize)
+        }
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "CODE" || el.nodeName == "STRONG" || el.nodeName == "EM" || el.nodeName == "SUMMARY"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    else if(el.nodeName == "PRE"){
-        el.style= styled;
-    }
     else if(el.nodeName == "SMALL" || el.nodeName == "SUP" || el.nodeName == "FIGCAPTION" || el.nodeName == "DT"){
-        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-    }
-    else if(el.nodeName == "B" || el.nodeName == "I"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "DEL" || el.nodeName == "INS" || el.nodeName == "SUB" || el.nodeName == "MARK"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
+    
+    // I. IMAGE
     
 })
