@@ -21,7 +21,8 @@
             `
             background: ${color}!important; 
             color: ${color}!important; 
-            border: 1px solid #A6A6A6 !important; 
+            outline: 1px solid #A6A6A6 !important; 
+            border-color: transparent !important;
             text-shadow: none !important;
             // opacity: 1 !important;
             `
@@ -54,8 +55,9 @@
     // Image
     function replaceUrlImage(el){
         if(window.getComputedStyle(el)["background"].includes("url")){
-            // el.classList.add("forceImage");
+            //el.style.background=`url(https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth})`;
             el.style = styled("#333333");
+
         } else if (window.getComputedStyle(el)["backgroundColor"].includes("rgb")){
             // we want to remove the colors
             el.style = styled("url()"); // Basically TRANSPARENT ;) nice trick
@@ -71,18 +73,22 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     if(el.nodeName == "SCRIPT"){
         //do nothing
     }
+
+    // DONE IMG & TEXT
     else if(el.nodeName == "A"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
         replaceUrlImage(el);
     }
+    else if(el.nodeName == "SPAN"){
+        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+        replaceUrlImage(el);
+     }
+    //
+
+
     else if(el.nodeName == "DIV"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     } 
-    //Removed the getStyle backgroundColor as it was causing ugly issues
-    else if(el.nodeName == "SPAN"){
-       ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-       replaceUrlImage(el);
-    }
     else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
@@ -113,5 +119,9 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
         el.style = styled();
     }
     // I. IMAGE
-    
+    else if(el.nodeName == "IMG"){
+        let height = el.offsetHeight;
+        el.src=`https://api.iconify.design/bi:x-square.svg?height=${height}&width=${el.offsetWidth}`;
+        el.style = styled("#333333");
+    }
 })
