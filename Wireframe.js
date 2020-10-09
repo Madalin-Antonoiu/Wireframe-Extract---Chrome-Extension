@@ -20,6 +20,7 @@
             color: ${color}!important; 
             border: 1px solid #A6A6A6 !important; 
             text-shadow: none !important;
+            // opacity: 1 !important;
             `
         )
     }
@@ -63,13 +64,9 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "DIV"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     } 
+    //Removed the getStyle backgroundColor as it was causing ugly issues
     else if(el.nodeName == "SPAN"){
-        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-
-        if(window.getComputedStyle(el)["backgroundColor"]){
-            el.style = styled();
-        }   
-
+       ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
@@ -78,17 +75,14 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
         //console.log(el.nodeName, el.style.fontSize)
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    else if(el.nodeName == "INPUT" || el.nodeName == "BUTTON" || el.nodeName == "PRE"){
-        el.style= styled();
+    else if(el.nodeName == "INPUT" || el.nodeName == "FORM" ||  el.nodeName == "BUTTON" || el.nodeName == "PRE"){
+        el.style = styled();
         if(el.placeholder) el.placeholder = "";
     }
     else if(el.nodeName == "CITE" || el.nodeName == "TIME" || el.nodeName == "LABEL" || el.nodeName == "DD" ){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "P" || el.nodeName == "S" || el.nodeName == "LI"){
-        if(el.nodeName == "P"){
-            //console.log(el.nodeName, el.style.fontSize)
-        }
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
     else if(el.nodeName == "CODE" || el.nodeName == "STRONG" || el.nodeName == "EM" || el.nodeName == "SUMMARY"){
@@ -97,8 +91,11 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "SMALL" || el.nodeName == "SUP" || el.nodeName == "FIGCAPTION" || el.nodeName == "DT"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
     }
-    else if(el.nodeName == "DEL" || el.nodeName == "INS" || el.nodeName == "SUB" || el.nodeName == "MARK"){
+    else if(el.nodeName == "DEL" || el.nodeName == "INS" || el.nodeName == "SUB" ){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+    }
+    else if(el.nodeName == "MARK"){
+        el.style = styled();
     }
     // I. IMAGE
     
