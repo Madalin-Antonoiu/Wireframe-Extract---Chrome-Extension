@@ -8,19 +8,39 @@
  */                 //https://utrust.com/,  https://www.storemaven.com/, https://www.tesla.com/ etc.
 
 // For iframe i just insert Array.from to run inside iframe's document :)
-// For the ::before and ::after, you can find any elem that has it within like window.getComputedStyle($0, '::before');
-            // Running this script twice will change some background colors - because i don't put IMG in url, i put just background color
+    
+    // BIIG BIIIG HELPER!
+    //- Apply grayscale on document.body!
 
 
-    console.log("Replace every bit of text - Installed")
 
 // Helpers
+    //Pseudo elements - simple, just add to them parents a .class::after to overwrite
+    function beforeAndAfterPseudoReplaceCss(){
+        // Create this class for images
+        var style = document.createElement('style'); style.id="customCss"
+        style.type = 'text/css';
+        style.innerHTML = `
+        .forceImageBefore::before { background: #333333 !important; color: #333333 !important; } 
+        .forceImageAfter::after { background: #333333 !important; color: #333333 !important;  }
+        .grayscale { 
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+        ` 
+        document.getElementsByTagName('head')[0].appendChild(style);
+        // const customCss = document.querySelector("#customCss")
+    }
     //Text
     function styled(color="#666666"){
         return (
             `
-            background: ${color}!important; 
-            color: ${color}!important; 
+            background: ${color} !important; 
+            color: ${color} !important; 
             outline: 1px solid #A6A6A6 !important; 
             border-color: transparent !important;
             text-shadow: none !important;
@@ -60,12 +80,24 @@
 
         } else if (window.getComputedStyle(el)["backgroundColor"].includes("rgb")){
             // we want to remove the colors
-            el.style = styled("url()"); // Basically TRANSPARENT ;) nice trick
+            el.style = styled("#555555"); // Basically TRANSPARENT ;) nice trick
         }
     }
-//
+    function replaceBeforeOrAfter(el){
+        if(window.getComputedStyle(el, ":before").content == false || window.getComputedStyle(el, ":after").content == false){
+            return
+        } else if(window.getComputedStyle(el, ":before").content && window.getComputedStyle(el, ":after").content){
+            el.classList.add("forceImageBefore");
+            el.classList.add("forceImageAfter");
+        }else if(window.getComputedStyle(el, ":before").content && window.getComputedStyle(el, ":after").content == false){
+            el.classList.add("forceImageBefore");
+        }else if (window.getComputedStyle(el, ":before").content == false && window.getComputedStyle(el, ":after").content){
+            el.classList.add("forceImageAfter");
+        }
+    }
 
-
+    beforeAndAfterPseudoReplaceCss()
+    document.body.classList.add("grayscale");
 // Main execution   
 Array.from(document.body.querySelectorAll('*')).forEach(el => {
 
@@ -76,18 +108,33 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
 
     // DONE IMG & TEXT
     else if(el.nodeName == "A"){
+
+        //These can be grouped together to avoid multiple calls
+        replaceBeforeOrAfter(el);
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
         replaceUrlImage(el);
+
+       
     }
     else if(el.nodeName == "SPAN"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
         replaceUrlImage(el);
+        replaceBeforeOrAfter(el);
      }
-    //
+
 
 
     else if(el.nodeName == "DIV"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+        replaceBeforeOrAfter(el);
+
+        //Replace only URL IMAGE backgrounds
+        if(window.getComputedStyle(el)["background"].includes("url")){
+            //el.style.background=`url(https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth})`;
+            el.style = styled("#333333");
+
+        }
+
     } 
     else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
@@ -122,6 +169,9 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "IMG"){
         let height = el.offsetHeight;
         el.src=`https://api.iconify.design/bi:x-square.svg?height=${height}&width=${el.offsetWidth}`;
+        if (el.srcset) el.srcset=`https://api.iconify.design/bi:x-square.svg?height=${height}&width=${el.offsetWidth}`;
         el.style = styled("#333333");
     }
+
+    //for SVG, remove D of path = gone :)
 })

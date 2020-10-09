@@ -34,3 +34,14 @@ if(el.nodeName == "A"){
     }
 
 }
+
+
+
+function beforeAndAfterPseudoReplaceCss(){
+    // Create this class for images
+    var style = document.createElement('style'); style.id="customCss"
+    style.type = 'text/css';
+    style.innerHTML = `.forceImage::before { background: black !important; color: black !important; }`;
+    document.getElementsByTagName('head')[0].appendChild(style);
+    // const customCss = document.querySelector("#customCss")
+}
