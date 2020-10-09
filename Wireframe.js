@@ -165,12 +165,19 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "MARK"){
         el.style = styled();
     }
+
+
     // I. IMAGE
     else if(el.nodeName == "IMG"){
-        let height = el.offsetHeight;
-        el.src=`https://api.iconify.design/bi:x-square.svg?height=${height}&width=${el.offsetWidth}`;
-        if (el.srcset) el.srcset=`https://api.iconify.design/bi:x-square.svg?height=${height}&width=${el.offsetWidth}`;
+        //https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth}
+        el.alt="";
+        el.src=`url() !important`;
+        if (el.srcset) el.srcset=``;
         el.style = styled("#333333");
+    }
+    // SVG - Logos, all that ;)
+    else if (el.nodeName == "path"){
+        el.setAttribute("d", "M5 .35z");
     }
 
     //for SVG, remove D of path = gone :)
