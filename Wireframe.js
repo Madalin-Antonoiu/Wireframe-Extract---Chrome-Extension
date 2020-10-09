@@ -9,10 +9,13 @@
 
 // For iframe i just insert Array.from to run inside iframe's document :)
 // For the ::before and ::after, you can find any elem that has it within like window.getComputedStyle($0, '::before');
+            // Running this script twice will change some background colors - because i don't put IMG in url, i put just background color
+
 
     console.log("Replace every bit of text - Installed")
 
 // Helpers
+    //Text
     function styled(color="#666666"){
         return (
             `
@@ -24,7 +27,6 @@
             `
         )
     }
-
     function ifAnyChildExistsAndIsTextNodeAndNotEmpty(el){
 
         let children = el.childNodes;
@@ -48,6 +50,17 @@
             textNodeParent.appendChild(mark);
         }
     }
+
+    // Image
+    function replaceUrlImage(el){
+        if(window.getComputedStyle(el)["background"].includes("url")){
+            // el.classList.add("forceImage");
+            el.style = styled("#333333");
+        } else if (window.getComputedStyle(el)["backgroundColor"].includes("rgb")){
+            // we want to remove the colors
+            el.style = styled("url()"); // Basically TRANSPARENT ;) nice trick
+        }
+    }
 //
 
 
@@ -60,6 +73,7 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     }
     else if(el.nodeName == "A"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+        replaceUrlImage(el);
     }
     else if(el.nodeName == "DIV"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
@@ -67,6 +81,7 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     //Removed the getStyle backgroundColor as it was causing ugly issues
     else if(el.nodeName == "SPAN"){
        ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
+       replaceUrlImage(el);
     }
     else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
