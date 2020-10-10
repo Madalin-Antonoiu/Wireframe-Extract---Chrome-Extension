@@ -297,3 +297,24 @@ sources.forEach(source=>{ source.srcset = "https://www.wirify.com/client/images/
 
 
 
+async function grayscaleCss(){
+    // Create this class for images
+    var style = document.createElement('style'); style.id="customCss"
+    style.type = 'text/css';
+    style.innerHTML = `
+    .forceImageBefore::before { background: #333333 !important; color: #333333 !important; } 
+    .forceImageAfter::after { background: #333333 !important; color: #333333 !important;  }
+    .grayscale { 
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        filter: grayscale(100%);
+        filter: gray;
+    }
+    ` 
+    document.getElementsByTagName('head')[0].appendChild(style);
+    document.body.classList.add("grayscale")
+
+    return ({'message':"success"})
+}
