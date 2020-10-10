@@ -41,10 +41,12 @@
             `
             background: ${color} !important; 
             color: ${color} !important; 
-            outline: 1px solid #A6A6A6 !important; 
+            // outline: 1px solid #A6A6A6 !important; 
+            // outline: transparent !important;
             border-color: transparent !important;
-            text-shadow: none !important;
+            //text-shadow: none !important;
             // opacity: 1 !important;
+            // margin
             `
         )
     }
@@ -98,6 +100,7 @@
 
     beforeAndAfterPseudoReplaceCss()
     document.body.classList.add("grayscale");
+
 // Main execution   
 Array.from(document.body.querySelectorAll('*')).forEach(el => {
 
@@ -110,30 +113,29 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     else if(el.nodeName == "A"){
 
         //These can be grouped together to avoid multiple calls
-        replaceBeforeOrAfter(el);
+        //replaceBeforeOrAfter(el);
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        replaceUrlImage(el);
-
+        // replaceUrlImage(el);
        
     }
     else if(el.nodeName == "SPAN"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        replaceUrlImage(el);
-        replaceBeforeOrAfter(el);
+        // replaceUrlImage(el);
+        //replaceBeforeOrAfter(el);
      }
 
 
 
     else if(el.nodeName == "DIV"){
         ifAnyChildExistsAndIsTextNodeAndNotEmpty(el);
-        replaceBeforeOrAfter(el);
+        //replaceBeforeOrAfter(el);
 
         //Replace only URL IMAGE backgrounds
-        if(window.getComputedStyle(el)["background"].includes("url")){
-            //el.style.background=`url(https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth})`;
-            el.style = styled("#333333");
+        // if(window.getComputedStyle(el)["background"].includes("url")){
+        //     //el.style.background=`url(https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth})`;
+        //     el.style = styled("#333333");
 
-        }
+        // }
 
     } 
     else if(el.nodeName == "TD" || el.nodeName == "B" || el.nodeName == "I" || el.nodeName == "TH"){
@@ -168,7 +170,7 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
 
 
     // I. IMAGE
-    else if(el.nodeName == "IMG"){
+    else if(el.nodeName == "IMG" && el.nodeName == "IMAGE"){
         //https://api.iconify.design/bi:x-square.svg?height=${el.offsetHeight}&width=${el.offsetWidth}
         el.alt="";
         el.src=`url() !important`;
@@ -178,6 +180,7 @@ Array.from(document.body.querySelectorAll('*')).forEach(el => {
     // SVG - Logos, all that ;)
     else if (el.nodeName == "path"){
         el.setAttribute("d", "M5 .35z");
+        el.parentElement.style = styled("#333333");
     }
 
     //for SVG, remove D of path = gone :)
