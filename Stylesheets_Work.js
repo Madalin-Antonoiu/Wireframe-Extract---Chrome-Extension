@@ -40,13 +40,34 @@ async function imagePromise(){
 
     return ({performant, foundElems})
 }
+async function divsImageBgPromise(){
+    let t0 = performance.now();
+
+    var divs = document.getElementsByTagName("DIV");
+    var foundElems = [];
+
+    for (var i = 0; i < divs.length; i++) {
+        foundElems.push(divs[i]);
+        let wxh = divs[i].offsetWidth + "x" + divs[i].offsetHeight
+
+        if(divs[i].style.backgroundImage){
+            divs[i].style.backgroundImage = `url("https://via.placeholder.com/${wxh}")`
+        }
+
+    }
+
+    let t1 = performance.now();
+    let performant = (t1 - t0).toFixed(2) +" ms";
+
+    return ({performant, foundElems})
+}
 
 
 //INLINE
-var [img, image, stylesheet] = await Promise.all([
+var [img, image, stylesheet, divsimg] = await Promise.all([
     console.log(imgPromise()), 
     console.log(imagePromise()),
-    // console.log(stylesheetCss())
+    console.log(divsImageBgPromise()),
 ]);
 
 //STYLESHEET
