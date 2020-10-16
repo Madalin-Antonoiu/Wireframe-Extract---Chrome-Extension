@@ -61,13 +61,35 @@ async function divsImageBgPromise(){
 
     return ({performant, foundElems})
 }
+async function iBgPromise(){
+    let t0 = performance.now();
+
+    var is = document.getElementsByTagName("i");
+    var foundElems = [];
+
+    for (var i = 0; i < is.length; i++) {
+        foundElems.push(is[i]);
+        let wxh = is[i].offsetWidth + "x" + is[i].offsetHeight
+
+        if(window.getComputedStyle(is[i])["background-image"].includes("url")){
+            is[i].style.backgroundImage = `url("https://via.placeholder.com/${wxh}")`
+        }
+
+    }
+
+    let t1 = performance.now();
+    let performant = (t1 - t0).toFixed(2) +" ms";
+
+    return ({performant, foundElems})
+}
 
 
 //INLINE
-var [img, image, stylesheet, divsimg] = await Promise.all([
+var [img, image, stylesheet, divsimg, is] = await Promise.all([
     console.log(imgPromise()), 
     console.log(imagePromise()),
     console.log(divsImageBgPromise()),
+    console.log(iBgPromise()),
 ]);
 
 //STYLESHEET
