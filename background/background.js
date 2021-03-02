@@ -13,7 +13,7 @@ function incomingMessages(msg, sender) {
 
     if (msg.command == "replaceText") {
 
-        chrome.tabs.query({}, function(tabs) {
+        chrome.tabs.query({}, function (tabs) {
             chrome.tabs.executeScript(tabs[0].id, { file: "content_scripts/Lorem-Ipsum-Text.js" });
         });
 
@@ -21,7 +21,7 @@ function incomingMessages(msg, sender) {
 
     if (msg.command == "replaceImages") {
 
-        chrome.tabs.query({}, function(tabs) {
+        chrome.tabs.query({}, function (tabs) {
             chrome.tabs.executeScript(tabs[0].id, { file: "content_scripts/Replace-Images.js" });
         });
 
@@ -47,13 +47,13 @@ function tabsStatus(savedTabId) {
 function createPopup(minimized = false) {
     return (
         chrome.windows.create({
-                url: chrome.runtime.getURL("../popup/popup.html"),
-                type: "popup",
-                focused: false,
-                width: 420,
-                height: 680,
-                state: "normal"
-            },
+            url: chrome.runtime.getURL("../popup/popup.html"),
+            type: "popup",
+            focused: false,
+            width: 300,
+            height: 100,
+            state: "normal"
+        },
             function callback(data) {
                 popupWindowId = data.id;
                 isOpen = true;

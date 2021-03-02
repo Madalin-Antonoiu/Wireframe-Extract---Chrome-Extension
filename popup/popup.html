@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wireframe Extractor</title>
 
     <style>
-        #submitAdvancedSearch {
-            background-color: #333333;
-            position: absolute;
-            bottom: 5px;
-            right: 13px;
-            opacity: 0.6;
-            border: 2px solid red;
-            color: white;
-        }
-        
-        #submitAdvancedSearch:hover {
-            background-color: #222222;
-        }
+      #submitAdvancedSearch {
+        background-color: #333333;
+        position: absolute;
+        bottom: 5px;
+        right: 13px;
+        opacity: 0.6;
+        border: 2px solid red;
+        color: white;
+      }
+
+      #submitAdvancedSearch:hover {
+        background-color: #222222;
+      }
     </style>
 
-    <link rel="stylesheet" href="./popup.css">
-</head>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
 
-<body>
+  <body>
+    <div style="display: flex; justify-content: center">
+      <button id="replaceText" style="margin-right: 5px">Replace Text</button>
+      <button id="replaceImages">Replace Images</button>
+    </div>
 
-
-    <button id="replaceText">Replace Text</button>
-    <button id="replaceImages">Replace Images</button>
+    <div style="display: flex; justify-content: center">
+      <sub>* Runs the scripts on the first open tab in Chrome.</sub>
+    </div>
 
     <script type="module" src="./popup.js"></script>
     <script src="./tabs.js"></script>
-</body>
-
+  </body>
 </html>

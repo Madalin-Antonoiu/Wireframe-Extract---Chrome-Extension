@@ -3,8 +3,8 @@
  * script is to be injected by bookmarklet
  * N. Landsteiner, mass:werk - media environments <http://www.masswerk.at>
  */
-(function() {
-	var loremipsum=[
+(function () {
+	var loremipsum = [
 		'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 		'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 		'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
@@ -96,46 +96,47 @@
 		'Morbi id mauris libero.',
 		'Suspendisse consectetur, erat eget convallis pulvinar, nulla sem varius nisi, vel semper nibi leo id enim.'
 	];
-	var whitespaceAtFrontRe=/^[\s\xa0]+/;
-	var whitespaceAtEndRe=/[\s\xa0]+$/;
-	var punctationRe=/([:!?\.])$/;
-	var punctationFrontRe=/^([:!?\.]\s+)/;
-	var capatializedRe=/^[^\wÃ„Ã–ÃœÃ€Ã€ÃÃˆÃ‰Ã‡]*[A-ZÃ„Ã–ÃœÃ€Ã€ÃÃˆÃ‰Ã‡]/;
-	var simpleExpressionRe=/^[\(\[]?.[:\.\)\]]?$/;
-	var singleWordRe=/^\w*$/;
-	var charAtFrontRe=/^[a-z]/i;
-	var headlineRe=/^H[1-3]$/i;
-	var lastTextHadPunctation=false;
-	var foundMain=false;
-	var idx=0;
-	var getLoremIpsum=function(n, isHeadline, singleWord) {
+	var whitespaceAtFrontRe = /^[\s\xa0]+/;
+	var whitespaceAtEndRe = /[\s\xa0]+$/;
+	var punctationRe = /([:!?\.])$/;
+	var punctationFrontRe = /^([:!?\.]\s+)/;
+	var capatializedRe = /^[^\wÃ„Ã–ÃœÃ€Ã€ÃÃˆÃ‰Ã‡]*[A-ZÃ„Ã–ÃœÃ€Ã€ÃÃˆÃ‰Ã‡]/;
+	var simpleExpressionRe = /^[\(\[]?.[:\.\)\]]?$/;
+	var singleWordRe = /^\w*$/;
+	var charAtFrontRe = /^[a-z]/i;
+	var headlineRe = /^H[1-3]$/i;
+	var lastTextHadPunctation = false;
+	var foundMain = false;
+	var idx = 0;
+
+	var getLoremIpsum = function (n, isHeadline, singleWord) {
 		if (!foundMain && isHeadline) {
-			idx=0;
-			foundMain=true;
+			idx = 0;
+			foundMain = true;
 		}
-		var t=loremipsum[idx];
-		var l=t.length;
-		while (l<n) {
-			if (++idx>=loremipsum.length) idx=0;
-			t+=' '+loremipsum[idx];
-			l=t.length;
+		var t = loremipsum[idx];
+		var l = t.length;
+		while (l < n) {
+			if (++idx >= loremipsum.length) idx = 0;
+			t += ' ' + loremipsum[idx];
+			l = t.length;
 		}
-		if (l>n) {
-			var t1=t.substring(0,n);
-			var t2=t.substring(n).replace(/\s.*$/, '');
-			if (!singleWord && (t2.length<3 || (singleWordRe.test(t1) && charAtFrontRe.test(t.charAt(n))))) {
-				t=t1+t2;
+		if (l > n) {
+			var t1 = t.substring(0, n);
+			var t2 = t.substring(n).replace(/\s.*$/, '');
+			if (!singleWord && (t2.length < 3 || (singleWordRe.test(t1) && charAtFrontRe.test(t.charAt(n))))) {
+				t = t1 + t2;
 			}
 			else {
-				t=t1.replace(/,?\s\w*$/, '');
+				t = t1.replace(/,?\s\w*$/, '');
 			}
-			if (t.length>3) t=t.replace(/\s\w$/, '');
+			if (t.length > 3) t = t.replace(/\s\w$/, '');
 		}
-		t=t.replace(/\s+$/, '');
-		if (++idx>=loremipsum.length) idx=0;
+		t = t.replace(/\s+$/, '');
+		if (++idx >= loremipsum.length) idx = 0;
 		return t;
 	};
-	var getDocumentBody=function() {
+	var getDocumentBody = function () {
 		if (document.getElementsByTagName) {
 			return document.getElementsByTagName('body').item(0);
 		}
@@ -145,58 +146,58 @@
 		else if ((document.all) && (document.all.tags)) {
 			return document.all.tags('body')[0];
 		}
-		else{
+		else {
 			return null;
 		}
 	};
-	var replaceText=function(el, isHeadline) {
-		var t=el.nodeValue;
+	var replaceText = function (el, isHeadline) {
+		var t = el.nodeValue;
 		if (!t) return;
-		var n=t.length;
-		t=t.replace(whitespaceAtFrontRe, '');
-		var wsFront=(t.length!=n);
-		n=t.length;
-		t=t.replace(whitespaceAtEndRe, '');
-		var wsEnd=(t.length!=n);
-		n=t.length;
-		if (n>0 && !simpleExpressionRe.test(t)) {
-			var tn=getLoremIpsum(n, isHeadline, singleWordRe.test(t));
-			var matches=punctationRe.exec(t);
+		var n = t.length;
+		t = t.replace(whitespaceAtFrontRe, '');
+		var wsFront = (t.length != n);
+		n = t.length;
+		t = t.replace(whitespaceAtEndRe, '');
+		var wsEnd = (t.length != n);
+		n = t.length;
+		if (n > 0 && !simpleExpressionRe.test(t)) {
+			var tn = getLoremIpsum(n, isHeadline, singleWordRe.test(t));
+			var matches = punctationRe.exec(t);
 			if (matches) {
-				tn=tn.replace(/[,\.]+$/, '').replace(/\s+$/, '')+matches[1];
+				tn = tn.replace(/[,\.]+$/, '').replace(/\s+$/, '') + matches[1];
 			}
 			else {
-				tn=tn.replace(/,\s*$/, '');
+				tn = tn.replace(/,\s*$/, '');
 			}
-			var first=tn.charAt(0);
-			var rest=tn.substring(1);
-			tn = ((lastTextHadPunctation || capatializedRe.test(t))? first.toUpperCase():first.toLowerCase())+rest;
-			matches=punctationFrontRe.exec(t);
-			if (matches) tn=matches[1]+tn;
-			lastTextHadPunctation=punctationRe.test(tn);
-			if (wsFront) tn=' '+tn;
-			if (wsEnd) tn+=' ';
-			el.nodeValue=tn;
+			var first = tn.charAt(0);
+			var rest = tn.substring(1);
+			tn = ((lastTextHadPunctation || capatializedRe.test(t)) ? first.toUpperCase() : first.toLowerCase()) + rest;
+			matches = punctationFrontRe.exec(t);
+			if (matches) tn = matches[1] + tn;
+			lastTextHadPunctation = punctationRe.test(tn);
+			if (wsFront) tn = ' ' + tn;
+			if (wsEnd) tn += ' ';
+			el.nodeValue = tn;
 		}
 	};
-	var scanElement=function(el, isHeadline) {
-		var n=el.firstChild;
+	var scanElement = function (el, isHeadline) {
+		var n = el.firstChild;
 		while (n) {
-			var nt=n.nodeType;
-			var ns=n.nextSibling;
-			if (nt==1) {
-				var nn=n.nodeName;
-				if (nn!='SCRIPT' && nn!='STYLE' && nn!='EMBED') {
+			var nt = n.nodeType;
+			var ns = n.nextSibling;
+			if (nt == 1) {
+				var nn = n.nodeName;
+				if (nn != 'SCRIPT' && nn != 'STYLE' && nn != 'EMBED') {
 					scanElement(n, isHeadline || headlineRe.test(nn));
 				}
 			}
-			else if (nt==3) {
+			else if (nt == 3) {
 				replaceText(n, isHeadline);
 			}
-			n=ns;
+			n = ns;
 		}
 	};
-	var b=getDocumentBody();
+	var b = getDocumentBody();
 	if (b) {
 		scanElement(b, false);
 	}

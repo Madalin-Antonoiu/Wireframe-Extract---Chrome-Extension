@@ -1,34 +1,32 @@
 {
-    "manifest_version": 2,
-    "name": ".Wireframe Extractor",
-    "version": "0.1",
-    "author": "Madalin Antonoiu",
-    "description": "Quickly wireframe and existing website. Made with love by @Madalin",
-    "icons": {
-        "128": "./popup/icons128.png", 
-        "48": "./popup/icons48.png",
-        "16": "./popup/icons16.png"
-    },
-    "browser_action":{
-        "default_icon": "./popup/icons16.png"
-    },
-    "background": {
-        "page": "./background/background.html"
-    },
-    "content_scripts" : [
-        {
-            "matches": ["<all_urls>"],
-            "js": [
-                "Wireframe.js"
-            ]
-        }
-    ],
-    "permissions": [
-        "activeTab",
-        "tabs",
-        "notifications",
-        "contextMenus",
-        "webNavigation",
-        "<all_urls>"
-    ]
+  "manifest_version": 2,
+  "name": "Wireframe Extractor",
+  "version": "0.2",
+  "author": "Madalin Antonoiu",
+  "description": "Quickly wireframe an existing website. Made with love by @Madalin",
+  "icons": {
+    "128": "./popup/icons128.png",
+    "48": "./popup/icons48.png",
+    "16": "./popup/icons16.png"
+  },
+  "browser_action": {
+    "default_icon": "./popup/icons16.png"
+  },
+  "background": {
+    "page": "./background/background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["Wireframe.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "notifications",
+    "contextMenus",
+    "webNavigation",
+    "<all_urls>"
+  ]
 }
